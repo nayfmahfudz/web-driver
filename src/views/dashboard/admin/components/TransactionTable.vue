@@ -41,66 +41,65 @@
           size="mini"
           type="primary"
           @click="finishttrx(row.id)"
-          >Finish</el-button
-        >
-        
+        >Finish</el-button>
+
       </template>
     </el-table-column>
   </el-table>
 </template>
 
 <script>
-import { historyList, Accept, bookList,Finish } from "@/api/remote-search";
+import { historyList, Accept, bookList, Finish } from '@/api/remote-search'
 
 export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        Finish: "success",
-        pending: "danger",
-      };
-      return statusMap[status];
-    },
+        Finish: 'success',
+        pending: 'danger'
+      }
+      return statusMap[status]
+    }
     // orderNoFilter(str) {
     //   return str.substring(0, 30)
     // }
   },
   data() {
     return {
-      list: null,
-    };
+      list: null
+    }
   },
   created() {
-    this.fetchData();
+    this.fetchData()
   },
   methods: {
     fetchData() {
       bookList().then((response) => {
-        if( response.data.data.length == 0){
-        historyList().then((response) => {
-          this.list = response.data.data.slice(0, 8);
-        });
-      }else{
-        this.list = response.data.data.slice(0, 8);
-      }
-      });
+        if (response.data.data.length == 0) {
+          historyList().then((response) => {
+            this.list = response.data.data.slice(0, 8)
+          })
+        } else {
+          this.list = response.data.data.slice(0, 8)
+        }
+      })
     },
     accepttrx(id_transaksi) {
       Accept(id_transaksi).then((response) => {
-        this.$swal(response.data.message);
-        if (response.data.message == "berhasil") {
-          window.location.reload();
+        this.$swal(response.data.message)
+        if (response.data.message == 'berhasil') {
+          window.location.reload()
         }
-      });
+      })
     },
     finishttrx(id_transaksi) {
       Finish(id_transaksi).then((response) => {
-        this.$swal(response.data.message);
-        if (response.data.message == "berhasil") {
-          window.location.reload();
+        this.$swal(response.data.message)
+        if (response.data.message == 'berhasil') {
+          window.location.reload()
         }
-      });
+      })
     }
-  },
-};
+  }
+}
 </script>

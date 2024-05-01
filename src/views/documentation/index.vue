@@ -11,8 +11,7 @@
       </div>
 
       <el-form-item prop="Bank">
-        <span class="svg-container">
-        </span>
+        <span class="svg-container" />
         <el-input
           v-model="witdraw.bank"
           placeholder="Nama BANK"
@@ -21,78 +20,69 @@
         />
       </el-form-item>
 
-      <el-tooltip
-      >
+      <el-tooltip>
         <el-form-item prop="card">
-          <span class="svg-container">
-          </span>
+          <span class="svg-container" />
           <el-input
-          v-model="witdraw.card"
-          placeholder="No  Rekening"
-          name="Rekening"
-          type="number"
+            v-model="witdraw.card"
+            placeholder="No  Rekening"
+            name="Rekening"
+            type="number"
           />
         </el-form-item>
       </el-tooltip>
-      <el-tooltip
-      >
+      <el-tooltip>
         <el-form-item prop="nama">
-          <span class="svg-container">
-          </span>
+          <span class="svg-container" />
           <el-input
-          v-model="witdraw.nama"
-          placeholder="Atas Nama "
-          name="nama"
-          type="text"
+            v-model="witdraw.nama"
+            placeholder="Atas Nama "
+            name="nama"
+            type="text"
           />
         </el-form-item>
       </el-tooltip>
-      <el-tooltip
-      >
+      <el-tooltip>
         <el-form-item prop="jumlah">
-          <span class="svg-container">
-          </span>
+          <span class="svg-container" />
           <el-input
-          v-model="witdraw.amount"
-          placeholder="jumlah"
-          name="jumlah"
-          type="number"
+            v-model="witdraw.amount"
+            placeholder="jumlah"
+            name="jumlah"
+            type="number"
           />
         </el-form-item>
       </el-tooltip>
       <el-button
-      @click="submit(witdraw)"
-        >Submit</el-button
-      >
+        @click="submit(witdraw)"
+      >Submit</el-button>
     </el-form>
 
-    
   </div>
 </template>
 
-
 <script>
-import { Witdraw } from "@/api/remote-search";
+import { Witdraw } from '@/api/remote-search'
 
 export default {
   name: 'Documentation',
-  components: {  },
+  components: { },
   data() {
     return {
       witdraw: {
-        bank: "",
-        card: "",
-        nama: "",
-        amount:"0"
-      },
+        bank: '',
+        card: '',
+        nama: '',
+        amount: '0'
+      }
     }
   },
   methods: {
     submit(witdraw) {
       Witdraw(witdraw).then((response) => {
-        this.$swal(response.data.message);
-      });
-    },
+        this.$swal(response.data.message)
+      })
+    }
   }
 }
 </script>

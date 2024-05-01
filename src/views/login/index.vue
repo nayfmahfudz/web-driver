@@ -63,8 +63,7 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >Login</el-button
-      >
+      >Login</el-button>
 
       <div style="position: relative">
         <div class="tips">
@@ -72,75 +71,73 @@
           <span>nama_driver : sebastian</span>
         </div>
 
-        
       </div>
     </el-form>
 
-    
   </div>
 </template>
 
 <script>
-import { validUsername } from "@/utils/validate";
-import SocialSign from "./components/SocialSignin";
-import axios from "axios";
+import { validUsername } from '@/utils/validate'
+import SocialSign from './components/SocialSignin'
+import axios from 'axios'
 
 export default {
-  name: "Login",
+  name: 'Login',
   components: { SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error("Please enter the correct user name"));
+        callback(new Error('Please enter the correct user name'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error("The password can not be less than 6 digits"));
+        callback(new Error('The password can not be less than 6 digits'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       loginForm: {
-        no_telepon: "",
-        password: "",
-        username:"admin"
+        no_telepon: '',
+        password: '',
+        username: 'admin'
       },
       loginRules: {
-        no_telepon: [{ required: true, trigger: "blur", validator: null }],
-        password: [{ required: true, trigger: "blur", validator: null }],
+        no_telepon: [{ required: true, trigger: 'blur', validator: null }],
+        password: [{ required: true, trigger: 'blur', validator: null }]
       },
-      passwordType: "password",
+      passwordType: 'password',
       capsTooltip: false,
       loading: false,
       showDialog: false,
       redirect: undefined,
-      otherQuery: {},
-    };
+      otherQuery: {}
+    }
   },
   watch: {
     $route: {
-      handler: function (route) {
-        const query = route.query;
+      handler: function(route) {
+        const query = route.query
         if (query) {
-          this.redirect = query.redirect;
-          this.otherQuery = this.getOtherQuery(query);
+          this.redirect = query.redirect
+          this.otherQuery = this.getOtherQuery(query)
         }
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   created() {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
-    if (this.loginForm.no_telepon === "") {
-      this.$refs.no_telepon.focus();
-    } else if (this.loginForm.password === "") {
-      this.$refs.password.focus();
+    if (this.loginForm.no_telepon === '') {
+      this.$refs.no_telepon.focus()
+    } else if (this.loginForm.password === '') {
+      this.$refs.password.focus()
     }
   },
   destroyed() {
@@ -148,67 +145,66 @@ export default {
   },
   methods: {
     checkCapslock(e) {
-      const { key } = e;
-      this.capsTooltip = key && key.length === 1 && key >= "A" && key <= "Z";
+      const { key } = e
+      this.capsTooltip = key && key.length === 1 && key >= 'A' && key <= 'Z'
     },
     showPwd() {
-      if (this.passwordType === "password") {
-        this.passwordType = "";
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
       } else {
-        this.passwordType = "password";
+        this.passwordType = 'password'
       }
       this.$nextTick(() => {
-        this.$refs.password.focus();
-      });
+        this.$refs.password.focus()
+      })
     },
     handleLogin() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          this.loading = true;
+          this.loading = true
           const headers = {
-            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            "Access-Control-Allow-Origin": "*"
-            
-          };
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'Access-Control-Allow-Origin': '*'
+
+          }
           axios
             .post(
               `https://api.smartrans.id/root/api/driver/login`,
               JSON.stringify(this.loginForm)
             )
             .then((response) => {
-              if (response.data.message === "found" && response.data.data[0].nama_driver==this.loginForm.password) {
+              if (response.data.message === 'found' && response.data.data[0].nama_driver == this.loginForm.password) {
                 localStorage.user = JSON.stringify(response.data.data[0])
-                this.$swal("Login Sukses");
-                localStorage.user = JSON.stringify(response.data.data[0]);
+                this.$swal('Login Sukses')
+                localStorage.user = JSON.stringify(response.data.data[0])
                 this.$store.dispatch('user/login', this.loginForm)
-            .then(() => {
-              // console.log(this.redirect+this.otherQuery )
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-              this.loading = false
-            })
+                  .then(() => {
+                    // console.log(this.redirect+this.otherQuery )
+                    this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+                    this.loading = false
+                  })
               } else {
-                this.$swal("Login Gagal");
+                this.$swal('Login Gagal')
                 this.loading = false
               }
             })
             .catch(() => {
-              this.loading = false;
-            });
-        
+              this.loading = false
+            })
         } else {
-          console.log("error submit!!");
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
-        if (cur !== "redirect") {
-          acc[cur] = query[cur];
+        if (cur !== 'redirect') {
+          acc[cur] = query[cur]
         }
-        return acc;
-      }, {});
-    },
+        return acc
+      }, {})
+    }
     // afterQRScan() {
     //   if (e.key === 'x-admin-oauth-code') {
     //     const code = getQueryObject(e.newValue)
@@ -227,8 +223,8 @@ export default {
     //     }
     //   }
     // }
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss">

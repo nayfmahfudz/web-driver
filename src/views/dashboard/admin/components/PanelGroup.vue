@@ -26,9 +26,9 @@
         </div>
       </div>
     </el-col>
-          <el-button  :xs="12" :sm="12" :lg="6" size="extra large" type="warning"  @click="clearAll">On</el-button>
-          <el-button  :xs="12" :sm="12" :lg="6" size="extra large" type="success"  @click="clearAll">absen</el-button>
-    
+    <el-button :xs="12" :sm="12" :lg="6" size="extra large" type="warning" @click="clearAll">On</el-button>
+    <el-button :xs="12" :sm="12" :lg="6" size="extra large" type="success" @click="clearAll">absen</el-button>
+
   </el-row>
 </template>
 
@@ -36,11 +36,11 @@
 import CountTo from 'vue-count-to'
 
 export default {
-  props: ['data'],
   components: {
     CountTo
   },
-  
+  props: ['data'],
+
   methods: {
     handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)

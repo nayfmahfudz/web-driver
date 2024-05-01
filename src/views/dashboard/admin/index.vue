@@ -7,8 +7,6 @@
       <line-chart :chart-data="lineChartData" />
     </el-row> -->
 
-   
-
     <el-row :gutter="8">
       <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
         <transaction-table />
@@ -32,7 +30,7 @@ import TransactionTable from './components/TransactionTable'
 import TransactionTableBook from './components/TransactionTableBook'
 import TodoList from './components/TodoList'
 import BoxCard from './components/BoxCard'
-let user = JSON.parse(localStorage.user);
+const user = JSON.parse(localStorage.user)
 const lineChartData = {
   saldo: {
     expectedData: [100, 120, 161, 134, 105, 160, 165],
@@ -68,8 +66,8 @@ export default {
   data() {
     return {
       lineChartData: 0,
-      user:{saldo: user.saldo/100,
-      saldotrx: user.saldotrx/100}
+      user: { saldo: user.saldo / 100,
+        saldotrx: user.saldotrx / 100 }
     }
   },
   methods: {
