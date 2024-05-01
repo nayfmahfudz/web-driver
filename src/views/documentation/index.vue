@@ -1,57 +1,222 @@
 <template>
-  <div class="app-container documentation-container">
-    <a class="document-btn" target="_blank" href="https://store.akveo.com/products/vue-java-admin-dashboard-spring?utm_campaign=akveo_store-Vue-Vue_demo%2Fgithub&utm_source=vue_admin&utm_medium=referral&utm_content=demo_English_button">Java backend integration</a>
-    <a class="document-btn" target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/">Documentation</a>
-    <a class="document-btn" target="_blank" href="https://github.com/PanJiaChen/vue-element-admin/">Github Repository</a>
-    <a class="document-btn" target="_blank" href="https://panjiachen.gitee.io/vue-element-admin-site/zh/">国内文档</a>
-    <dropdown-menu class="document-btn" :items="articleList" title="系列文章" />
-    <a class="document-btn" target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/zh/job/">内推招聘</a>
+  <div class="login-container">
+    <el-form
+      ref="loginForm"
+      class="login-form"
+      autocomplete="on"
+      label-position="left"
+    >
+      <div class="title-container">
+        <h3 class="title">Witdraw</h3>
+      </div>
+
+      <el-form-item prop="Bank">
+        <span class="svg-container">
+        </span>
+        <el-input
+          v-model="witdraw.bank"
+          placeholder="Nama BANK"
+          name="bank"
+          type="text"
+        />
+      </el-form-item>
+
+      <el-tooltip
+      >
+        <el-form-item prop="card">
+          <span class="svg-container">
+          </span>
+          <el-input
+          v-model="witdraw.card"
+          placeholder="No  Rekening"
+          name="Rekening"
+          type="number"
+          />
+        </el-form-item>
+      </el-tooltip>
+      <el-tooltip
+      >
+        <el-form-item prop="nama">
+          <span class="svg-container">
+          </span>
+          <el-input
+          v-model="witdraw.nama"
+          placeholder="Atas Nama "
+          name="nama"
+          type="text"
+          />
+        </el-form-item>
+      </el-tooltip>
+      <el-tooltip
+      >
+        <el-form-item prop="jumlah">
+          <span class="svg-container">
+          </span>
+          <el-input
+          v-model="witdraw.amount"
+          placeholder="jumlah"
+          name="jumlah"
+          type="number"
+          />
+        </el-form-item>
+      </el-tooltip>
+      <el-button
+      @click="submit(witdraw)"
+        >Submit</el-button
+      >
+    </el-form>
+
+    
   </div>
 </template>
 
+
 <script>
-import DropdownMenu from '@/components/Share/DropdownMenu'
+import { Witdraw } from "@/api/remote-search";
 
 export default {
   name: 'Documentation',
-  components: { DropdownMenu },
+  components: {  },
   data() {
     return {
-      articleList: [
-        { title: '基础篇', href: 'https://juejin.im/post/59097cd7a22b9d0065fb61d2' },
-        { title: '登录权限篇', href: 'https://juejin.im/post/591aa14f570c35006961acac' },
-        { title: '实战篇', href: 'https://juejin.im/post/593121aa0ce4630057f70d35' },
-        { title: 'vue-admin-template 篇', href: 'https://juejin.im/post/595b4d776fb9a06bbe7dba56' },
-        { title: 'v4.0 篇', href: 'https://juejin.im/post/5c92ff94f265da6128275a85' },
-        { title: '自行封装 component', href: 'https://segmentfault.com/a/1190000009090836' },
-        { title: '优雅的使用 icon', href: 'https://juejin.im/post/59bb864b5188257e7a427c09' },
-        { title: 'webpack4（上）', href: 'https://juejin.im/post/59bb864b5188257e7a427c09' },
-        { title: 'webpack4（下）', href: 'https://juejin.im/post/5b5d6d6f6fb9a04fea58aabc' }
-      ]
+      witdraw: {
+        bank: "",
+        card: "",
+        nama: "",
+        amount:"0"
+      },
     }
+  },
+  methods: {
+    submit(witdraw) {
+      Witdraw(witdraw).then((response) => {
+        this.$swal(response.data.message);
+      });
+    },
   }
 }
 </script>
 
-<style lang="scss" scoped>
-.documentation-container {
-  margin: 50px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+<style lang="scss">
+/* 修复input 背景不协调 和光标变色 */
+/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-  .document-btn {
-    flex-shrink: 0;
-    display: block;
-    cursor: pointer;
-    background: black;
-    color: white;
-    height: 60px;
-    padding: 0 16px;
-    margin: 16px;
-    line-height: 60px;
-    font-size: 20px;
-    text-align: center;
+$bg: #283443;
+$light_gray: #fff;
+$cursor: #fff;
+
+@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
+  .login-container .el-input input {
+    color: $cursor;
+  }
+}
+
+/* reset element-ui css */
+.login-container {
+  .el-input {
+    display: inline-block;
+    height: 47px;
+    width: 85%;
+
+    input {
+      background: transparent;
+      border: 0px;
+      -webkit-appearance: none;
+      border-radius: 0px;
+      padding: 12px 5px 12px 15px;
+      color: $light_gray;
+      height: 47px;
+      caret-color: $cursor;
+
+      &:-webkit-autofill {
+        box-shadow: 0 0 0px 1000px $bg inset !important;
+        -webkit-text-fill-color: $cursor !important;
+      }
+    }
+  }
+
+  .el-form-item {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    color: #454545;
   }
 }
 </style>
+
+<style lang="scss" scoped>
+$bg: #2d3a4b;
+$dark_gray: #889aa4;
+$light_gray: #eee;
+
+.login-container {
+  min-height: 100%;
+  width: 100%;
+  background-color: $bg;
+  overflow: hidden;
+
+  .login-form {
+    position: relative;
+    width: 520px;
+    max-width: 100%;
+    padding: 160px 35px 0;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .tips {
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 10px;
+
+    span {
+      &:first-of-type {
+        margin-right: 16px;
+      }
+    }
+  }
+
+  .svg-container {
+    padding: 6px 5px 6px 15px;
+    color: $dark_gray;
+    vertical-align: middle;
+    width: 30px;
+    display: inline-block;
+  }
+
+  .title-container {
+    position: relative;
+
+    .title {
+      font-size: 26px;
+      color: $light_gray;
+      margin: 0px auto 40px auto;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+
+  .show-pwd {
+    position: absolute;
+    right: 10px;
+    top: 7px;
+    font-size: 16px;
+    color: $dark_gray;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .thirdparty-button {
+    position: absolute;
+    right: 0;
+    bottom: 6px;
+  }
+
+  @media only screen and (max-width: 470px) {
+    .thirdparty-button {
+      display: none;
+    }
+  }
+}
+</style>
+

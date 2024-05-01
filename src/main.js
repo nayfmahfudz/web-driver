@@ -19,7 +19,12 @@ import './permission' // permission control
 import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
+import VueSweetalert2 from 'vue-sweetalert2';
 
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+Vue.use(VueSweetalert2);
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
