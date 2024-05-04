@@ -1,10 +1,15 @@
 import request from '@/utils/request'
 import data from '@/views/pdf/content'
 import axios from 'axios'
+import { Header } from 'element-ui'
 const user = JSON.parse(localStorage.user)
+const auth = {
+  username: 'test',
+  password: 'test'
+}
 const header = {
   headers: {
-    Authorization: 'basic',
+    auth,
     'Access-Control-Allow-Credentials': '*',
     'Access-Control-Allow-Headers':
       'Content-Type, Content-Length, Accept-Encoding',
@@ -31,42 +36,46 @@ export function transactionList(query) {
   })
 }
 export function historyWitdraw() {
-  update()
   const data = JSON.stringify({ id: user.id })
-  return axios.post(
+  const result = axios.post(
     `https://api.smartrans.id/root/api/driver/wallettrx`,
     data
   )
+  update()
+  return result
 }
 export function historyList() {
-  update()
   const data = JSON.stringify({ id: user.id })
-  return axios.post(
+  const result = axios.post(
     `https://api.smartrans.id/root/api/driver/history_progress`,
     data
   )
+  update()
+  return result
 }
 
 export function bookList() {
-  update()
   const data = JSON.stringify({ id: user.id })
-  return axios.post(
+  const result = axios.post(
     `https://api.smartrans.id/root/api/driver/book_progress`,
     data
   )
+  update()
+  return result
 }
 export function Accept(id_transaksi) {
-  update()
   const data = JSON.stringify({ id: user.id, id_transaksi: id_transaksi })
-  return axios.post(`https://api.smartrans.id/root/api/driver/accept`, data)
+  const result = axios.post(`https://api.smartrans.id/root/api/driver/accept`, data)
+  update()
+  return result
 }
 export function Finish(id_transaksi) {
-  update()
   const data = JSON.stringify({ id: user.id, id_transaksi: id_transaksi })
-  return axios.post(`https://api.smartrans.id/root/api/driver/finish`, data)
+  const result = axios.post(`https://api.smartrans.id/root/api/driver/finish`, data)
+  update()
+  return result
 }
 export function Witdraw(witdraw) {
-  update()
   const data = JSON.stringify({
     id: user.id,
     'bank': witdraw.bank,
@@ -75,15 +84,35 @@ export function Witdraw(witdraw) {
     'card': witdraw.card,
     'email': user.email,
     'no_telepon': user.no_telepon,
-    'type': 'withdraw'
+    'type': witdraw.type
   })
-  return axios.post(`https://api.smartrans.id/root/api/driver/withdraw`, data)
+  const result = axios.post(`https://api.smartrans.id/root/api/driver/withdraw`, data)
+  update()
+  return result
+}
+export function absen(absen) {
+  const data = JSON.stringify({
+    id: user.id,
+    'absen': absen
+  })
+  const result = axios.post(`https://api.smartrans.id/root/api/driver/absen`, data)
+  update()
+  return result
+}
+export function online(absen) {
+  const data = JSON.stringify({
+    id: user.id,
+    'is_turn': absen
+  })
+  const result = axios.post(`https://api.smartrans.id/root/api/driver/turning_on`, data)
+  update()
+  return result
 }
 function update() {
   const data = JSON.stringify({ no_telepon: user.no_telepon })
   return axios
     .post(
-      `https://api.smartrans.id/root/api/driver/login`,
+      `https://api.smartrans.id/root/api/driver/cekdriver`,
       data
     ).then((response) => {
       localStorage.user = JSON.stringify(response.data.data[0])

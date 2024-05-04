@@ -26,24 +26,47 @@
         </div>
       </div>
     </el-col>
-    <el-button :xs="12" :sm="12" :lg="6" size="extra large" type="warning" @click="clearAll">On</el-button>
-    <el-button :xs="12" :sm="12" :lg="6" size="extra large" type="success" @click="clearAll">absen</el-button>
+    <el-button v-if="user.absen == 'N' && user.pool == '1'" :xs="12" :sm="12" :lg="6" size="extra large" type="danger" @click="absenmasuk('Y')">Absen</el-button>
+    <el-button v-if="user.absen == 'Y' && user.pool == '1'" :xs="12" :sm="12" :lg="6" size="extra large" type="success" @click="absenmasuk('N')">Cancel</el-button>
+    <el-button v-if=" user.status_config == '1'" :xs="12" :sm="12" :lg="6" size="extra large" type="success" @click="onlinedriver(false)">ONLINE</el-button>
+    <el-button v-if="user.status_config == '4'" :xs="12" :sm="12" :lg="6" size="extra large" type="danger" @click="onlinedriver(true)">OFFLINE</el-button>
 
   </el-row>
 </template>
 
 <script>
 import CountTo from 'vue-count-to'
-
+import { absen, online } from '@/api/remote-search'
+let user = JSON.parse(localStorage.user)
 export default {
   components: {
     CountTo
   },
   props: ['data'],
-
+  data() {
+    return {
+      user: { absen: user.absen,
+        status_config: user.status_config,
+        pool: user.pool }
+    }
+  },
   methods: {
     handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)
+    },
+    onlinedriver(status) {
+      online(status).then((response) => {
+        this.$swal(response.data.message)
+        user = JSON.parse(localStorage.user)
+        this.user.status_config = response.data.data
+      })
+    },
+    absenmasuk(status) {
+      absen(status).then((response) => {
+        this.$swal(response.data.message)
+        user = JSON.parse(localStorage.user)
+        this.user.absen = response.data.data
+      })
     }
   }
 }

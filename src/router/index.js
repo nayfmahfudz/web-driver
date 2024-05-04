@@ -90,8 +90,8 @@ export const constantRoutes = [
       {
         path: 'index',
         component: () => import('@/views/documentation/index'),
-        name: 'Documentation',
-        meta: { title: 'Documentation', icon: 'documentation', affix: true }
+        name: 'Withdraw',
+        meta: { title: 'Withdraw', icon: 'documentation', affix: true }
       }
     ]
   },
@@ -103,8 +103,8 @@ export const constantRoutes = [
       {
         path: 'index',
         component: () => import('@/views/guide/index'),
-        name: 'Guide',
-        meta: { title: 'Guide', icon: 'guide', noCache: true }
+        name: 'Top up',
+        meta: { title: 'Top up', icon: 'guide', noCache: true }
       }
     ]
   },
@@ -359,18 +359,18 @@ export const asyncRoutes = [
   //   ]
   // },
 
-  // {
-  //   path: '/clipboard',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/clipboard/index'),
-  //       name: 'ClipboardDemo',
-  //       meta: { title: 'Clipboard', icon: 'clipboard' }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/clipboard',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/clipboard/index'),
+        name: 'ClipboardDemo',
+        meta: { title: 'QRIS', icon: 'clipboard' }
+      }
+    ]
+  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

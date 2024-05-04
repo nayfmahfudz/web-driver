@@ -65,7 +65,7 @@
 import { Witdraw } from '@/api/remote-search'
 
 export default {
-  name: 'Documentation',
+  name: 'Witdraw',
   components: { },
   data() {
     return {
@@ -73,7 +73,8 @@ export default {
         bank: '',
         card: '',
         nama: '',
-        amount: '0'
+        amount: '0',
+        type: 'withdraw'
       }
     }
   },
